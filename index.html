@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人介绍</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+:root{--bg:#0f1923;--surface:#1a2533;--card:#1e2a38;--border:rgba(255,255,255,.07);--text:#edf0f5;--text-sec:#8899aa;--accent:#ff4655;--accent-hover:#ff6b77;--nav-bg:rgba(15,25,35,.85);--shadow:rgba(255,70,85,.08)}
+[data-theme="light"]{--bg:#f5f5f5;--surface:#fff;--card:#fff;--border:#e0e0e0;--text:#1a1a1a;--text-sec:#666;--accent:#ff4655;--accent-hover:#d63a48;--nav-bg:rgba(245,245,245,.9);--shadow:rgba(255,70,85,.12)}
+
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;transition:background .3s,box-shadow .3s}
+.navbar.scrolled{background:var(--nav-bg);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--border)}
+.nav-inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-size:20px;font-weight:700;letter-spacing:-.5px;color:var(--accent)}
+.nav-links{display:flex;gap:32px}
+.nav-links a{font-size:14px;color:var(--text-sec);transition:color .25s;position:relative;padding:4px 0}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+
+.theme-wrap{display:flex;align-items:center;gap:0}
+.theme-checkbox{position:relative;display:flex;align-items:center;cursor:pointer;-webkit-user-select:none;user-select:none}
+.theme-checkbox input{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.check-visual{width:32px;height:32px;border-radius:8px;background:#fff;border:2px solid #a855f7;transition:all .3s ease-in-out;position:relative}
+.check-visual::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;opacity:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") center/contain no-repeat;transition:opacity .3s}
+.theme-checkbox input:checked+.check-visual{background:linear-gradient(135deg,#a855f7,#ec4899);border:0;transform:rotate(12deg)}
+.theme-checkbox input:checked+.check-visual::after{opacity:1}
+.theme-checkbox:hover .check-visual{box-shadow:0 0 15px rgba(168,85,247,.5)}
+.theme-label{margin-left:10px;font-size:12px;color:var(--text-sec);transition:color .3s}
+
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 48px 80px}
+.hero-inner{max-width:1040px;margin:0 auto;width:100%}
+.hero-badge{display:inline-block;font-size:13px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;opacity:.85;font-weight:600}
+.hero h1{font-size:56px;font-weight:700;letter-spacing:-1.5px;line-height:1.15;margin-bottom:16px}
+.hero h1 span{color:var(--accent)}
+.hero-sub{font-size:20px;color:var(--text-sec);margin-bottom:24px}
+.hero p{font-size:16px;color:var(--text-sec);max-width:580px;line-height:1.8;margin-bottom:36px}
+.hero-divider{width:48px;height:2px;background:var(--accent);margin:24px 0}
+
+section{padding:100px 48px}
+.section-inner{max-width:1040px;margin:0 auto}
+.section-label{font-size:13px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;opacity:.85;font-weight:600}
+.section-title{font-size:32px;font-weight:700;letter-spacing:-.5px;margin-bottom:48px}
+
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.skill-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:28px 24px;text-align:center;transition:transform .3s,border-color .3s,box-shadow .3s;cursor:pointer}
+.skill-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 30px var(--shadow)}
+.skill-icon{font-size:32px;margin-bottom:12px;display:block}
+.skill-name{font-size:15px;font-weight:600;margin-bottom:4px}
+.skill-desc{font-size:13px;color:var(--text-sec);line-height:1.5}
+
+.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.project-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:32px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.project-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 30px var(--shadow)}
+.project-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.project-tags span{font-size:11px;color:var(--accent);background:rgba(255,70,85,.08);border:1px solid rgba(255,70,85,.15);padding:4px 10px;border-radius:4px;letter-spacing:.3px;font-weight:500}
+.project-card h3{font-size:20px;font-weight:600;margin-bottom:10px}
+.project-card p{font-size:14px;color:var(--text-sec);line-height:1.7;margin-bottom:24px}
+
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.contact-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:32px;text-align:center;transition:transform .3s,border-color .3s,box-shadow .3s}
+.contact-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 30px var(--shadow)}
+.contact-card .icon{font-size:28px;margin-bottom:12px;display:block}
+.contact-card h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.contact-card a{font-size:14px;color:var(--text-sec);transition:color .25s}
+.contact-card a:hover{color:var(--accent)}
+
+footer{padding:40px 48px 32px;border-top:1px solid var(--border);text-align:center}
+footer p{font-size:13px;color:#555}
+
+/* ---- Button (from Uiverse.io by mrhyddenn) ---- */
+.button{-moz-appearance:none;-webkit-appearance:none;appearance:none;border:none;background:none;color:#0f1923;cursor:pointer;position:relative;padding:8px;margin-bottom:20px;text-transform:uppercase;font-weight:bold;font-size:14px;transition:all .15s ease;display:inline-block}
+.button::before,.button::after{content:'';display:block;position:absolute;right:0;left:0;height:calc(50% - 5px);border:1px solid #7D8082;transition:all .15s ease}
+.button::before{top:0;border-bottom-width:0}
+.button::after{bottom:0;border-top-width:0}
+.button:active,.button:focus{outline:none}
+.button:active::before,.button:active::after{right:3px;left:3px}
+.button:active::before{top:3px}
+.button:active::after{bottom:3px}
+.button_lg{position:relative;display:block;padding:10px 20px;color:#fff;background-color:#0f1923;overflow:hidden;box-shadow:inset 0px 0px 0px 1px transparent}
+.button_lg::before{content:'';display:block;position:absolute;top:0;left:0;width:2px;height:2px;background-color:#0f1923}
+.button_lg::after{content:'';display:block;position:absolute;right:0;bottom:0;width:4px;height:4px;background-color:#0f1923;transition:all .2s ease}
+.button_sl{display:block;position:absolute;top:0;bottom:-1px;left:-8px;width:0;background-color:#ff4655;transform:skew(-15deg);transition:all .2s ease}
+.button_text{position:relative}
+.button:hover{color:#0f1923}
+.button:hover .button_sl{width:calc(100% + 15px)}
+.button:hover .button_lg::after{background-color:#fff}
+
+.fade-in{opacity:1;transform:none}.fade-in.visible{opacity:1;transform:none}.js .fade-in{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}.js .fade-in.visible{opacity:1;transform:translateY(0)}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+::selection{background:rgba(255,70,85,.25);color:#fff}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
+
+
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.modal-overlay.active{opacity:1;pointer-events:all}
+.modal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:40px;max-width:500px;width:92%;position:relative;transform:translateY(24px);transition:transform .3s ease}
+.modal-overlay.active .modal-card{transform:translateY(0)}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-sec);font-size:26px;cursor:pointer;transition:color .25s;line-height:1;padding:4px}
+.modal-close:hover{color:var(--text)}
+.modal-title{font-size:22px;font-weight:700;margin-bottom:8px;color:var(--accent)}
+.modal-sub{font-size:14px;color:var(--text-sec);margin-bottom:16px}
+.modal-body ul{list-style:none;padding:0}
+.modal-body li{font-size:15px;color:var(--text-sec);line-height:2;padding-left:16px;position:relative}
+.modal-body li::before{content:'·';position:absolute;left:4px;color:var(--accent);font-weight:700}
+</style>
+<script>(function(){document.documentElement.classList.add("js")})();</script></head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">XZQ</a>
+    <ul class="nav-links">
+      <li><a href="#hero">个人简介</a></li>
+      <li><a href="#skills">技术栈</a></li>
+      <li><a href="#projects">项目经历</a></li>
+      <li><a href="#contact">联系方式</a></li>
+    </ul>
+    <label class="theme-checkbox" aria-label="切换主题">
+      <input type="checkbox" id="themeToggle">
+      <div class="check-visual"></div>
+    </label>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-inner fade-in">
+    <div class="hero-badge">AI 产品开发者</div>
+    <h1><span>熊子强</span></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">产品经理 · AI 应用开发 · 上海理工大学（管理科学 2026届）</p>
+    <p>具备 AI 产品从需求分析到上线交付的全流程实践经验，独立完成过 RAG 问答系统和 AI 电商素材平台的 MVP 开发。<br>
+    懂技术（Python / TypeScript / 前端开发），能与研发团队用同一套语言沟通。<br>
+    有产品思维，在设计技术方案时从用户场景和业务价值出发做决策。<br>
+    CET-6 498分，目标明确，擅于推动执行。</p>
+    <a href="熊子强.docx" download class="button">
+        <span class="button_lg">
+            <span class="button_sl"></span>
+            <span class="button_text">下载简历</span>
+        </span>
+    </a>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-inner fade-in">
+    <div class="section-label">Skills</div>
+    <h2 class="section-title">技术栈</h2>
+    <div class="skills-grid">
+      <div class="skill-card" data-skill="python"><span class="skill-icon">🐍</span><div class="skill-name">Python</div><div class="skill-desc">AI 开发 · 数据处理</div></div>
+      <div class="skill-card" data-skill="ts"><span class="skill-icon">🔷</span><div class="skill-name">TypeScript</div><div class="skill-desc">Agent 框架 · 类型安全</div></div>
+      <div class="skill-card" data-skill="deepseek"><span class="skill-icon">🧠</span><div class="skill-name">DeepSeek API</div><div class="skill-desc">模型适配 · 流式解析</div></div>
+      <div class="skill-card" data-skill="rag"><span class="skill-icon">📚</span><div class="skill-name">RAG</div><div class="skill-desc">知识库构建 · 语义检索</div></div>
+      <div class="skill-card" data-skill="fc"><span class="skill-icon">🔧</span><div class="skill-name">Function Calling</div><div class="skill-desc">工具编排 · Agent 循环</div></div>
+      <div class="skill-card" data-skill="sse"><span class="skill-icon">📡</span><div class="skill-name">SSE</div><div class="skill-desc">流式输出 · 实时通信</div></div>
+      <div class="skill-card" data-skill="spa"><span class="skill-icon">⚡</span><div class="skill-name">Frontend SPA</div><div class="skill-desc">纯前端架构 · 零依赖部署</div></div>
+      <div class="skill-card" data-skill="dag"><span class="skill-icon">🗺</span><div class="skill-name">DAG Workflow</div><div class="skill-desc">可视化画布 · 节点编排</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-inner fade-in">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title">项目经历</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-tags"><span>Python</span><span>RAG</span><span>DeepSeek</span><span>SSE</span></div>
+        <h3>RAG 知识库问答系统</h3>
+        <p>选择 RAG 方案而非微调——支持知识库动态更新，维护成本低。分层接口化设计，可灵活接入 DeepSeek、GPT 等大模型。SSE 流式输出 + 中文前端，全链路：文档上传 → 智能分块 → 语义检索 → LLM 生成 → 展示。</p>
+        <a href="https://github.com/XiongziqiangA/Rag.git" target="_blank" class="button" style="margin-bottom:0">
+          <span class="button_lg">
+            <span class="button_sl"></span>
+            <span class="button_text">GitHub →</span>
+          </span>
+        </a>
+      </div>
+      <div class="project-card">
+        <div class="project-tags"><span>SPA</span><span>DAG</span><span>Canvas</span><span>AI API</span></div>
+        <h3>EcomAI 电商素材工作流平台</h3>
+        <p>「上传产品图 → AI 自动生成淘宝全套素材」的一站式工具。6 节点 DAG 可视化工作流画布，可查看每步进度、单独运行或重跑任意节点。纯前端 SPA 架构，API 不可用时自动回退 Canvas 模拟。</p>
+        <a href="https://github.com/XiongziqiangA/---MVP" target="_blank" class="button" style="margin-bottom:0">
+          <span class="button_lg">
+            <span class="button_sl"></span>
+            <span class="button_text">GitHub →</span>
+          </span>
+        </a>
+      </div>
+      <div class="project-card">
+        <div class="project-tags"><span>TypeScript</span><span>Agent</span><span>Function Calling</span><span>SSE</span></div>
+        <h3>MiniCode — LLM Agent 框架</h3>
+        <p>Model→Tool→Model Agent 循环，支持 LLM 自主决策调用 12 种工具。DeepSeek 模型适配器，处理流式 SSE 解析、工具调用参数分段累积、消息格式双向转换。分层记忆系统，自动注入 MINI.md / CLAUDE.md 指令。</p>
+        <a href="https://github.com/XiongziqiangA/minicode" target="_blank" class="button" style="margin-bottom:0">
+          <span class="button_lg">
+            <span class="button_sl"></span>
+            <span class="button_text">GitHub →</span>
+          </span>
+        </a>
+      </div>
+      <div class="project-card">
+        <div class="project-tags"><span>Python</span><span>Federated Learning</span><span>LSTM</span><span>交通预测</span></div>
+        <h3>毕业论文：融合客户信誉的联邦学习</h3>
+        <p>《融合客户信誉机制的个性化联邦学习：道路网络交通流量预测新研究》——结合联邦学习与信誉机制，在保护数据隐私的前提下实现个性化交通流量预测模型。</p>
+        <a href="#" class="button" style="margin-bottom:0">
+          <span class="button_lg">
+            <span class="button_sl"></span>
+            <span class="button_text">查看论文</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-inner fade-in">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">联系方式</h2>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <span class="icon">📧</span>
+        <h3>邮箱</h3>
+        <a href="mailto:2775790443@qq.com">2775790443@qq.com</a>
+      </div>
+      <div class="contact-card">
+        <span class="icon">📱</span>
+        <h3>电话</h3>
+        <a href="tel:13957985683">13957985683</a>
+      </div>
+      <div class="contact-card">
+        <span class="icon">💻</span>
+        <h3>GitHub</h3>
+        <a href="https://github.com/XiongziqiangA" target="_blank">github.com/XiongziqiangA</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 熊子强 · 用 ❤️ 构建</p>
+</footer>
+
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-sub">本项目用到知识点：</div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+<script>
+
+const observer=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.fade-in').forEach(function(el){observer.observe(el)});
+const navbar=document.getElementById('navbar');const hero=document.getElementById('hero');const navObs=new IntersectionObserver(function([e]){navbar.classList.toggle('scrolled',!e.isIntersecting)},{rootMargin:'-64px 0px 0px'});if(hero)navObs.observe(hero);
+document.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var id=this.getAttribute('href').slice(1);var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})})});
+var toggle=document.getElementById('themeToggle');if(toggle){var saved=localStorage.getItem('theme');if(saved==='light'){toggle.checked=true;document.documentElement.setAttribute('data-theme','light')}toggle.addEventListener('change',function(){var theme=this.checked?'light':'dark';document.documentElement.setAttribute('data-theme',theme);localStorage.setItem('theme',theme)})}
+
+
+
+var modalData={python:{title:'Python',items:['后端接口基础语法','文本数据处理（简历解析）','脚本自动化部署辅助脚本']},ts:{title:'TypeScript',items:['前端类型系统概念','代码结构化思维','提升 JS 代码可维护性']},deepseek:{title:'DeepSeek API',items:['AI 辅助编程实践','结构化提示词编写','代码生成与纠错迭代']},rag:{title:'RAG',items:['知识检索与信息提取','文档内容分块处理','开发文档查阅方法']},fc:{title:'Function Calling',items:['DOM 事件监听与处理','回调函数与闭包','事件驱动编程模型']},sse:{title:'SSE',items:['流式数据更新概念','异步内容加载机制','实时交互反馈设计']},spa:{title:'Frontend SPA',items:['单页面应用架构设计','模块化页面结构组织','零依赖前端部署方案']},dag:{title:'DAG Workflow',items:['多步骤任务编排思维','交互流程设计原则','功能模块解耦方法']}};
+var overlay=document.getElementById('modalOverlay');var mTitle=document.getElementById('modalTitle');var mBody=document.getElementById('modalBody');var mClose=document.getElementById('modalClose');
+if(overlay&&mClose){
+function openModal(key){var d=modalData[key];if(!d)return;mTitle.textContent=d.title;mBody.innerHTML='<ul>'+d.items.map(function(i){return '<li>'+i+'</li>'}).join('')+'</ul>';overlay.classList.add('active')}
+function closeModal(){overlay.classList.remove('active')}
+mClose.addEventListener('click',function(e){e.stopPropagation();closeModal()});
+overlay.addEventListener('click',function(e){if(e.target===this)closeModal()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
+document.querySelectorAll('.skill-card').forEach(function(c){c.addEventListener('click',function(){var key=this.getAttribute('data-skill');if(key)openModal(key)})});
+}
+</script>
+
+</div>
+
+</div>
+
+
+
+
+</body>
+</html>
