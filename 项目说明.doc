@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?mso-application progid="Word.Document"?>
+<w:wordDocument xmlns:w="http://schemas.microsoft.com/office/word/2003/wordml">
+<w:body>
+<w:p><w:r><w:rPr><w:sz w:val="36"/><w:b/></w:rPr><w:t>个人介绍网站 - 项目说明</w:t></w:r></w:p>
+<w:p></w:p>
+
+<w:p><w:r><w:rPr><w:sz w:val="28"/><w:b/></w:rPr><w:t>一、使用的 AI 工具</w:t></w:r></w:p>
+<w:p><w:r><w:b/><w:t>Codex (GPT-5)</w:t></w:r><w:r><w:t> - 主要的 AI 编程助手，用于生成完整的个人介绍网站 HTML/CSS/JS 代码、调试问题、完成文件操作与部署。</w:t></w:r></w:p>
+<w:p><w:r><w:b/><w:t>Cursor</w:t></w:r><w:r><w:t> - 辅助编写提示词，帮助结构化和分解开发任务。</w:t></w:r></w:p>
+<w:p></w:p>
+
+<w:p><w:r><w:rPr><w:sz w:val="28"/><w:b/></w:rPr><w:t>二、AI 帮助完成了哪些工作</w:t></w:r></w:p>
+<w:p><w:r><w:t>1. 生成完整的个人介绍静态网站（index.html），包含个人简介、技术栈、项目经历、联系方式四个模块</w:t></w:r></w:p>
+<w:p><w:r><w:t>2. UI 设计：深色简约风格、红色斜切滑入按钮（Uiverse.io）、紫粉渐变主题切换 Checkbox</w:t></w:r></w:p>
+<w:p><w:r><w:t>3. 交互效果：滚动淡入动画（IntersectionObserver）、导航栏平滑跳转、悬停上浮效果、暗色/亮色主题切换（localStorage 持久化）</w:t></w:r></w:p>
+<w:p><w:r><w:t>4. 弹窗功能：点击技术栈卡片弹出自定义弹窗，展示本项目用到的知识点，带关闭按钮、遮罩关闭、ESC 关闭</w:t></w:r></w:p>
+<w:p><w:r><w:t>5. 从 WPS 版 docx 简历中提取个人信息（使用 python-docx 解析 WPS 文本框结构）</w:t></w:r></w:p>
+<w:p><w:r><w:t>6. 处理文件编码问题、Git 版本控制操作、GitHub Pages 部署</w:t></w:r></w:p>
+<w:p><w:r><w:t>7. 将项目打包到桌面文件夹</w:t></w:r></w:p>
+<w:p></w:p>
+
+<w:p><w:r><w:rPr><w:sz w:val="28"/><w:b/></w:rPr><w:t>三、自己手动修改了哪些内容</w:t></w:r></w:p>
+<w:p><w:r><w:t>1. 提供了个人简历（熊子强.docx），包含真实的个人信息、教育背景、项目经历和技术栈</w:t></w:r></w:p>
+<w:p><w:r><w:t>2. 提供了按钮和 Checkbox 两个 UI 组件的 HTML+CSS 代码，要求在网站中直接使用</w:t></w:r></w:p>
+<w:p><w:r><w:t>3. 指定了项目需求方向（个人介绍网站、PC端、简约风格、部署到外网）</w:t></w:r></w:p>
+<w:p><w:r><w:t>4. 提供了 GitHub 仓库（XiongziqiangA/Intro.git）并完成了最终的 Git push</w:t></w:r></w:p>
+<w:p><w:r><w:t>5. 在多次迭代中反馈了网站显示问题，协助排查和修复</w:t></w:r></w:p>
+<w:p></w:p>
+
+<w:p><w:r><w:rPr><w:sz w:val="28"/><w:b/></w:rPr><w:t>四、遇到的问题及如何通过 AI 解决</w:t></w:r></w:p>
+<w:p><w:r><w:b/><w:t>WPS 版 docx 简历内容无法直接提取：</w:t></w:r><w:r><w:t>AI 发现简历使用 WPS 文本框（wps:txbx）而非标准段落，通过遍历 XML 中的 wps:txbx 元素提取文本节点，成功获取简历内容。</w:t></w:r></w:p>
+<w:p><w:r><w:b/><w:t>弹窗功能导致页面空白：</w:t></w:r><w:r><w:t>页面依赖 IntersectionObserver 将 fade-in 从 opacity:0 变为可见。弹窗脚本报错会导致整个脚本不执行、页面全白。修复方案：在 head 中添加 JS 保护脚本，使 fade-in 默认可见（opacity:1），仅当 JS 确认可用后才隐藏并做动画。</w:t></w:r></w:p>
+<w:p><w:r><w:b/><w:t>弹窗 JS 错误插入到了 head 脚本中：</w:t></w:r><w:r><w:t>弹窗 JS 被 append 到了 head 的 JS 保护脚本后面而非 body 脚本。使用 lastIndexOf 定位最后一个 script 标签，确保弹窗逻辑在 body 脚本中执行时 DOM 已就绪。</w:t></w:r></w:p>
+<w:p><w:r><w:b/><w:t>CSS content 属性显示 u00b7 而非中间点：</w:t></w:r><w:r><w:t>JS 字符串 \u00b7 在 CSS 中被解释为转义序列，显示为文本 u00b7。直接替换为实际字符后正常显示。</w:t></w:r></w:p>
+<w:p><w:r><w:b/><w:t>多次回退操作导致文件损坏：</w:t></w:r><w:r><w:t>AI 使用 Node.js 逐行分析文件结构，通过正则清理残余代码、重建完整的 HTML 文件，最终恢复并正确实现弹窗功能。</w:t></w:r></w:p>
+<w:p></w:p>
+
+<w:p><w:r><w:rPr><w:sz w:val="28"/><w:b/></w:rPr><w:t>五、最终网站链接</w:t></w:r></w:p>
+<w:p><w:r><w:rPr><w:sz w:val="24"/><w:b/></w:rPr><w:t>https://xiongziqianga.github.io/Intro/</w:t></w:r></w:p>
+<w:p><w:r><w:b/><w:t>注：</w:t></w:r><w:r><w:t>需在 GitHub 仓库 Settings - Pages 中开启后即可访问。</w:t></w:r></w:p>
+</w:body>
+</w:wordDocument>
